@@ -922,3 +922,192 @@ if __name__ == "__main__":
         unittest.main(argv=[sys.argv[0]])
     else:
         main()
+
+
+
+
+
+
+
+        
+"""Basic calculator utilities with input validation."""
+
+import math
+
+
+def add(a: float, b: float) -> float:
+    return a + b
+
+
+def subtract(a: float, b: float) -> float:
+    return a - b
+
+
+def multiply(a: float, b: float) -> float:
+    return a * b
+
+
+def divide(a: float, b: float) -> float:
+    if b == 0:
+        raise ZeroDivisionError("Cannot divide by zero.")
+    return a / b
+
+
+def power(base: float, exponent: float) -> float:
+    return base ** exponent
+
+
+def square_root(number: float) -> float:
+    if number < 0:
+        raise ValueError("Cannot calculate a real square root of a negative number.")
+    return math.sqrt(number)
+
+
+def percentage(value: float, total: float) -> float:
+    if total == 0:
+        raise ZeroDivisionError("Total cannot be zero.")
+    return value / total * 100
+
+
+def factorial(number: int) -> int:
+    if not isinstance(number, int) or isinstance(number, bool):
+        raise TypeError("Number must be an integer.")
+    if number < 0:
+        raise ValueError("Number cannot be negative.")
+    return math.factorial(number)
+
+
+def average(numbers: list[float]) -> float:
+    if not numbers:
+        raise ValueError("Cannot calculate the average of an empty list.")
+    return sum(numbers) / len(numbers)
+
+
+def maximum(numbers: list[float]) -> float:
+    if not numbers:
+        raise ValueError("List cannot be empty.")
+    return max(numbers)
+
+
+def minimum(numbers: list[float]) -> float:
+    if not numbers:
+        raise ValueError("List cannot be empty.")
+    return min(numbers)
+
+
+if __name__ == "__main__":
+    print("Addition:", add(10, 20))
+    print("Division:", divide(100, 5))
+    print("Square root:", square_root(144))
+    print("Percentage:", percentage(45, 60))
+    print("Average:", average([10, 20, 30, 40]))
+```
+
+Create `exception_handler.py`:
+
+<CodeBlock language="python" editable>
+"""Reusable exception-handling examples."""
+
+
+def safe_integer(value: str) -> int | None:
+    try:
+        return int(value)
+    except ValueError:
+        return None
+
+
+def safe_division(a: float, b: float) -> dict:
+    try:
+        result = a / b
+    except ZeroDivisionError as error:
+        return {"success": False, "error": str(error)}
+    else:
+        return {"success": True, "result": result}
+    finally:
+        # Useful for cleanup or tracking operation completion.
+        pass
+
+
+def validate_positive(number: float) -> float:
+    if number <= 0:
+        raise ValueError("Number must be positive.")
+    return number
+
+
+def read_file(path: str) -> dict:
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            return {"success": True, "content": file.read()}
+    except FileNotFoundError:
+        return {"success": False, "error": "File not found."}
+    except PermissionError:
+        return {"success": False, "error": "Permission denied."}
+    except OSError as error:
+        return {"success": False, "error": str(error)}
+```
+
+Create `test_calculator.py`:
+
+<CodeBlock language="python" editable>
+"""Tests for calculator functions."""
+
+import unittest
+
+from calculator import (
+    add,
+    subtract,
+    multiply,
+    divide,
+    square_root,
+    percentage,
+    factorial,
+    average,
+)
+
+
+class CalculatorTests(unittest.TestCase):
+
+    def test_add(self):
+        self.assertEqual(add(10, 20), 30)
+
+    def test_subtract(self):
+        self.assertEqual(subtract(20, 5), 15)
+
+    def test_multiply(self):
+        self.assertEqual(multiply(4, 5), 20)
+
+    def test_divide(self):
+        self.assertEqual(divide(20, 4), 5)
+
+    def test_divide_by_zero(self):
+        with self.assertRaises(ZeroDivisionError):
+            divide(10, 0)
+
+    def test_square_root(self):
+        self.assertEqual(square_root(81), 9)
+
+    def test_negative_square_root(self):
+        with self.assertRaises(ValueError):
+            square_root(-1)
+
+    def test_percentage(self):
+        self.assertEqual(percentage(25, 100), 25)
+
+    def test_factorial(self):
+        self.assertEqual(factorial(5), 120)
+
+    def test_negative_factorial(self):
+        with self.assertRaises(ValueError):
+            factorial(-1)
+
+    def test_average(self):
+        self.assertEqual(average([10, 20, 30]), 20)
+
+    def test_empty_average(self):
+        with self.assertRaises(ValueError):
+            average([])
+
+
+if __name__ == "__main__":
+    unittest.main()
+
