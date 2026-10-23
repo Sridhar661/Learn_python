@@ -1,69 +1,44 @@
-# Python To-Do List Manager
+def is_prime(number: int) -> bool:
+    """Return True if a number is prime."""
+    if number < 2:
+        return False
 
-tasks = []
+    divisor = 2
+    while divisor * divisor <= number:
+        if number % divisor == 0:
+            return False
+        divisor += 1
 
-def add_task():
-    task = input("Enter a new task: ")
-    tasks.append({"task": task, "completed": False})
-    print("Task added successfully!")
+    return True
 
-def view_tasks():
-    if not tasks:
-        print("No tasks available.")
-        return
-    for index, task in enumerate(tasks, start=1):
-        status = "Done" if task["completed"] else "Pending"
-        print(f"{index}. {task['task']} - {status}")
 
-def complete_task():
-    view_tasks()
-    if not tasks:
-        return
-    try:
-        number = int(input("Enter task number: "))
-        if 1 <= number <= len(tasks):
-            tasks[number - 1]["completed"] = True
-            print("Task completed!")
+def fibonacci(count: int) -> list[int]:
+    """Generate the first count Fibonacci numbers."""
+    if count < 0:
+        raise ValueError("Count cannot be negative.")
+
+    sequence = []
+    first, second = 0, 1
+
+    for _ in range(count):
+        sequence.append(first)
+        first, second = second, first + second
+
+    return sequence
+
+
+def binary_search(numbers: list[int], target: int) -> int:
+    """Find a target in a sorted list; return its index or -1."""
+    left, right = 0, len(numbers) - 1
+
+    while left <= right:
+        middle = (left + right) // 2
+
+        if numbers[middle] == target:
+            return middle
+        if numbers[middle] < target:
+            left = middle + 1
         else:
-            print("Invalid task number.")
-    except ValueError:
-        print("Please enter a valid number.")
+            right = middle - 1
 
-def delete_task():
-    view_tasks()
-    if not tasks:
-        return
-    try:
-        number = int(input("Enter task number to delete: "))
-        if 1 <= number <= len(tasks):
-            removed = tasks.pop(number - 1)
-            print(f"Deleted: {removed['task']}")
-        else:
-            print("Invalid task number.")
-    except ValueError:
-        print("Please enter a valid number.")
-
-def show_menu():
-    print("\n--- TO-DO LIST ---")
-    print("1. Add Task")
-    print("2. View Tasks")
-    print("3. Complete Task")
-    print("4. Delete Task")
-    print("5. Exit")
-
-while True:
-    show_menu()
-    choice = input("Choose an option: ")
-    if choice == "1":
-        add_task()
-    elif choice == "2":
-        view_tasks()
-    elif choice == "3":
-        complete_task()
-    elif choice == "4":
-        delete_task()
-    elif choice == "5":
-        print("Goodbye!")
-        break
-    else:
-        print("Invalid choice. Try again.")
+    return -1

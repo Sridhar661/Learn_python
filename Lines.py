@@ -1,64 +1,44 @@
-# Simple Python Student Management Program
-students = []
+def is_prime(number: int) -> bool:
+    """Return True if a number is prime."""
+    if number < 2:
+        return False
 
-def add_student(name, age, marks):
-    student = {
-        "name": name,
-        "age": age,
-        "marks": marks
-    }
-    students.append(student)
-    print(f"{name} added successfully.")
+    divisor = 2
+    while divisor * divisor <= number:
+        if number % divisor == 0:
+            return False
+        divisor += 1
 
-def display_students():
-    if not students:
-        print("No students found.")
-        return
-    for student in students:
-        print(student)
+    return True
 
-def calculate_average():
-    if not students:
-        return 0
-    total = sum(s["marks"] for s in students)
-    return total / len(students)
 
-def find_student(name):
-    for student in students:
-        if student["name"].lower() == name.lower():
-            return student
-    return None
+def fibonacci(count: int) -> list[int]:
+    """Generate the first count Fibonacci numbers."""
+    if count < 0:
+        raise ValueError("Count cannot be negative.")
 
-def show_topper():
-    if not students:
-        print("No students available.")
-        return
-    topper = max(students, key=lambda s: s["marks"])
-    print("Topper:", topper["name"])
+    sequence = []
+    first, second = 0, 1
 
-add_student("Arun", 21, 85)
-add_student("Priya", 22, 92)
-add_student("Kumar", 20, 78)
+    for _ in range(count):
+        sequence.append(first)
+        first, second = second, first + second
 
-display_students()
-print("Average marks:", calculate_average())
-show_topper()
+    return sequence
 
-result = find_student("Priya")
-if result:
-    print("Student found:", result)
-else:
-    print("Student not found.")
 
-for student in students:
-    if student["marks"] >= 90:
-        print(student["name"], "Grade A")
-    elif student["marks"] >= 80:
-        print(student["name"], "Grade B")
-    elif student["marks"] >= 70:
-        print(student["name"], "Grade C")
-    else:
-        print(student["name"], "Needs improvement")
+def binary_search(numbers: list[int], target: int) -> int:
+    """Find a target in a sorted list; return its index or -1."""
+    left, right = 0, len(numbers) - 1
 
-print("Total students:", len(students))
-print("Program completed successfully.")
+    while left <= right:
+        middle = (left + right) // 2
+
+        if numbers[middle] == target:
+            return middle
+        if numbers[middle] < target:
+            left = middle + 1
+        else:
+            right = middle - 1
+
+    return -1
