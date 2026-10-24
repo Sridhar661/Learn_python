@@ -1,0 +1,6 @@
+"""Application entry point for the Python Task Tracker."""
+
+from task_tracker.cli import main
+
+if __name__ == "__main__":
+    main()

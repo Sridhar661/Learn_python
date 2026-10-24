@@ -1,44 +1,40 @@
-def is_prime(number: int) -> bool:
-    """Return True if a number is prime."""
-    if number < 2:
-        return False
+# def get_worst_team_captain(teams):
+#     """
+#     Selects the captain of the worst team.
+    
+#     Parameters:
+#     teams (list of lists): A list where each team is a list structured as 
+#                            [Coach, Captain, Player1, Player2, ...] 
+#                            ordered from best team to worst team.
+                           
+#     Returns:
+#     str: The name of the captain of the worst team, or None if the list is empty/invalid.
+#     """
+#     if not teams:
+#         return None  # Handle empty list case
+        
+#     worst_team = teams[-1]  # The worst team is at the end of the list
+    
+#     if len(worst_team) < 2:
+#         return None  # Handle case where a team list doesn't have a captain listed
+        
+#     return worst_team[1]  # The captain is the second element (index 1)
 
-    divisor = 2
-    while divisor * divisor <= number:
-        if number % divisor == 0:
-            return False
-        divisor += 1
+# # --- Example Usage ---
+# sports_teams = [
+#     ["Coach Alex", "Captain Bob", "Player 1", "Player 2"],   # Best Team
+#     ["Coach Charlie", "Captain Dave", "Player 3"],           # Middle Team
+#     ["Coach Eve", "Captain Frank", "Player 5", "Player 6"]   # Worst Team
+# ]
 
-    return True
-
-
-def fibonacci(count: int) -> list[int]:
-    """Generate the first count Fibonacci numbers."""
-    if count < 0:
-        raise ValueError("Count cannot be negative.")
-
-    sequence = []
-    first, second = 0, 1
-
-    for _ in range(count):
-        sequence.append(first)
-        first, second = second, first + second
-
-    return sequence
+# print(get_worst_team_captain(sports_teams))  # Output: Captain Frank
 
 
-def binary_search(numbers: list[int], target: int) -> int:
-    """Find a target in a sorted list; return its index or -1."""
-    left, right = 0, len(numbers) - 1
 
-    while left <= right:
-        middle = (left + right) // 2
 
-        if numbers[middle] == target:
-            return middle
-        if numbers[middle] < target:
-            left = middle + 1
-        else:
-            right = middle - 1
 
-    return -1
+
+i = 0
+while i < 10:
+    print(i, end=' ')
+    i += 1 
