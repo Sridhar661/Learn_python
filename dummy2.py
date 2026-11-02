@@ -1,234 +1,215 @@
 
-# Mini POS Billing System
-# Single-file Python project
+# ==========================================
+# STUDENT MANAGEMENT SYSTEM
+# ==========================================
 
-products = {
-    101: {"name": "Rice", "price": 60.0, "stock": 100},
-    102: {"name": "Sugar", "price": 45.0, "stock": 80},
-    103: {"name": "Milk", "price": 30.0, "stock": 50},
-    104: {"name": "Coffee", "price": 120.0, "stock": 40},
-    105: {"name": "Soap", "price": 35.0, "stock": 60},
-}
-
-sales_history = []
+students = []
 
 
-def display_products():
-    print("\n========== PRODUCT LIST ==========")
-    print(f"{'ID':<8}{'Name':<15}{'Price':<12}{'Stock':<10}")
+def add_student():
+    print("\n--- Add Student ---")
 
-    for product_id, product in products.items():
-        print(
-            f"{product_id:<8}"
-            f"{product['name']:<15}"
-            f"{product['price']:<12.2f}"
-            f"{product['stock']:<10}"
-        )
+    student_id = input("Enter Student ID: ")
+    name = input("Enter Student Name: ")
+    age = int(input("Enter Age: "))
+    department = input("Enter Department: ")
+    marks = float(input("Enter Marks: "))
+
+    student = {
+        "id": student_id,
+        "name": name,
+        "age": age,
+        "department": department,
+        "marks": marks
+    }
+
+    students.append(student)
+    print("Student added successfully!")
 
 
-def add_product():
-    try:
-        product_id = int(input("Enter product ID: "))
+def view_students():
+    print("\n--- Student List ---")
 
-        if product_id in products:
-            print("Product ID already exists!")
+    if not students:
+        print("No students available.")
+        return
+
+    for student in students:
+        print("-" * 40)
+        print("ID:", student["id"])
+        print("Name:", student["name"])
+        print("Age:", student["age"])
+        print("Department:", student["department"])
+        print("Marks:", student["marks"])
+
+
+def search_student():
+    student_id = input("Enter Student ID to search: ")
+
+    for student in students:
+        if student["id"] == student_id:
+            print("\nStudent Found!")
+            print(student)
             return
 
-        name = input("Enter product name: ").strip()
-        price = float(input("Enter product price: "))
-        stock = int(input("Enter stock quantity: "))
+    print("Student not found.")
 
-        if not name or price < 0 or stock < 0:
-            print("Invalid product details!")
+
+def update_student():
+    student_id = input("Enter Student ID: ")
+
+    for student in students:
+        if student["id"] == student_id:
+
+            print("1. Update Name")
+            print("2. Update Age")
+            print("3. Update Department")
+            print("4. Update Marks")
+
+            choice = input("Select option: ")
+
+            if choice == "1":
+                student["name"] = input("New Name: ")
+
+            elif choice == "2":
+                student["age"] = int(input("New Age: "))
+
+            elif choice == "3":
+                student["department"] = input("New Department: ")
+
+            elif choice == "4":
+                student["marks"] = float(input("New Marks: "))
+
+            else:
+                print("Invalid option!")
+                return
+
+            print("Student updated successfully!")
             return
 
-        products[product_id] = {
-            "name": name,
-            "price": price,
-            "stock": stock,
-        }
-
-        print("Product added successfully!")
-
-    except ValueError:
-        print("Please enter valid numeric values.")
+    print("Student not found.")
 
 
-def restock_product():
-    try:
-        product_id = int(input("Enter product ID: "))
+def delete_student():
+    student_id = input("Enter Student ID: ")
 
-        if product_id not in products:
-            print("Product not found!")
+    for student in students:
+        if student["id"] == student_id:
+            students.remove(student)
+            print("Student deleted successfully!")
             return
 
-        quantity = int(input("Enter quantity to add: "))
-
-        if quantity <= 0:
-            print("Quantity must be positive.")
-            return
-
-        products[product_id]["stock"] += quantity
-        print("Stock updated successfully!")
-
-    except ValueError:
-        print("Invalid input!")
+    print("Student not found.")
 
 
-def create_bill():
-    cart = {}
-    print("\nEnter product IDs to add to the cart.")
-    print("Enter 0 when you finish shopping.")
+def calculate_average():
+    if not students:
+        print("No student records.")
+        return
 
+    total = sum(student["marks"] for student in students)
+    average = total / len(students)
+
+    print("Average Marks:", round(average, 2))
+
+
+def show_topper():
+    if not students:
+        print("No student records.")
+        return
+
+    topper = max(students, key=lambda x: x["marks"])
+
+    print("\nClass Topper:")
+    print("Name:", topper["name"])
+    print("Marks:", topper["marks"])
+
+
+def show_passed_students():
+    print("\nPassed Students:")
+
+    for student in students:
+        if student["marks"] >= 35:
+            print(student["name"], student["marks"])
+
+
+def show_failed_students():
+    print("\nFailed Students:")
+
+    for student in students:
+        if student["marks"] < 35:
+            print(student["name"], student["marks"])
+
+
+def sort_students():
+    students.sort(key=lambda x: x["marks"], reverse=True)
+
+    print("\nStudents sorted by marks:")
+    view_students()
+
+
+def show_statistics():
+    if not students:
+        print("No records available.")
+        return
+
+    print("\n--- Statistics ---")
+    print("Total Students:", len(students))
+    print("Average Marks:", sum(s["marks"] for s in students) / len(students))
+    print("Highest Marks:", max(s["marks"] for s in students))
+    print("Lowest Marks:", min(s["marks"] for s in students))
+
+
+def menu():
     while True:
+        print("\n========== STUDENT MANAGEMENT ==========")
+        print("1. Add Student")
+        print("2. View Students")
+        print("3. Search Student")
+        print("4. Update Student")
+        print("5. Delete Student")
+        print("6. Calculate Average")
+        print("7. Show Topper")
+        print("8. Passed Students")
+        print("9. Failed Students")
+        print("10. Sort Students")
+        print("11. Show Statistics")
+        print("12. Exit")
+
+        choice = input("\nEnter your choice: ")
+
         try:
-            product_id = int(input("Product ID: "))
-
-            if product_id == 0:
+            if choice == "1":
+                add_student()
+            elif choice == "2":
+                view_students()
+            elif choice == "3":
+                search_student()
+            elif choice == "4":
+                update_student()
+            elif choice == "5":
+                delete_student()
+            elif choice == "6":
+                calculate_average()
+            elif choice == "7":
+                show_topper()
+            elif choice == "8":
+                show_passed_students()
+            elif choice == "9":
+                show_failed_students()
+            elif choice == "10":
+                sort_students()
+            elif choice == "11":
+                show_statistics()
+            elif choice == "12":
+                print("Thank you!")
                 break
-
-            if product_id not in products:
-                print("Product not found!")
-                continue
-
-            quantity = int(input("Quantity: "))
-
-            if quantity <= 0:
-                print("Quantity must be positive.")
-                continue
-
-            available = products[product_id]["stock"]
-            already_added = cart.get(product_id, 0)
-
-            if quantity + already_added > available:
-                print(f"Only {available - already_added} more available.")
-                continue
-
-            cart[product_id] = already_added + quantity
+            else:
+                print("Invalid choice!")
 
         except ValueError:
-            print("Enter valid numbers.")
-
-    if not cart:
-        print("Cart is empty.")
-        return
-
-    subtotal = sum(
-        products[pid]["price"] * qty
-        for pid, qty in cart.items()
-    )
-
-    discount_rate = 0.05 if subtotal >= 1000 else 0
-    discount = subtotal * discount_rate
-    taxable_amount = subtotal - discount
-    gst_rate = 0.05
-    gst = taxable_amount * gst_rate
-    total = taxable_amount + gst
-
-    print("\n============= CUSTOMER BILL =============")
-
-    for pid, qty in cart.items():
-        product = products[pid]
-        amount = product["price"] * qty
-        print(f"{product['name']:<15} x {qty:<3} Rs. {amount:.2f}")
-
-    print("-----------------------------------------")
-    print(f"Subtotal:             Rs. {subtotal:.2f}")
-    print(f"Discount:             Rs. {discount:.2f}")
-    print(f"GST (5% demo):        Rs. {gst:.2f}")
-    print(f"Total:                Rs. {total:.2f}")
-
-    payment = input("Payment (cash/card/upi): ").strip().lower()
-
-    if payment not in ["cash", "card", "upi"]:
-        print("Invalid payment method. Bill cancelled.")
-        return
-
-    for pid, qty in cart.items():
-        products[pid]["stock"] -= qty
-
-    sales_history.append({
-        "subtotal": subtotal,
-        "discount": discount,
-        "gst": gst,
-        "total": total,
-        "payment": payment,
-    })
-
-    print(f"Payment successful using {payment.upper()}!")
-    print("Thank you for shopping!")
-
-
-def low_stock_report():
-    print("\n========== LOW STOCK REPORT ==========")
-    found = False
-
-    for pid, product in products.items():
-        if product["stock"] <= 10:
-            print(
-                f"{pid} - {product['name']} "
-                f"- Remaining: {product['stock']}"
-            )
-            found = True
-
-    if not found:
-        print("No products have low stock.")
-
-
-def sales_report():
-    print("\n========== SALES REPORT ==========")
-
-    if not sales_history:
-        print("No sales recorded.")
-        return
-
-    total_revenue = sum(
-        sale["total"] for sale in sales_history
-    )
-
-    print(f"Number of bills: {len(sales_history)}")
-    print(f"Total revenue: Rs. {total_revenue:.2f}")
-
-    for method in ["cash", "card", "upi"]:
-        amount = sum(
-            sale["total"]
-            for sale in sales_history
-            if sale["payment"] == method
-        )
-        print(f"{method.upper()} sales: Rs. {amount:.2f}")
-
-
-def main():
-    while True:
-        print("\n========== MINI POS SYSTEM ==========")
-        print("1. Display Products")
-        print("2. Add Product")
-        print("3. Restock Product")
-        print("4. Create Bill")
-        print("5. Low Stock Report")
-        print("6. Sales Report")
-        print("7. Exit")
-
-        choice = input("Choose an option: ").strip()
-
-        if choice == "1":
-            display_products()
-        elif choice == "2":
-            add_product()
-        elif choice == "3":
-            restock_product()
-        elif choice == "4":
-            create_bill()
-        elif choice == "5":
-            low_stock_report()
-        elif choice == "6":
-            sales_report()
-        elif choice == "7":
-            print("POS system closed.")
-            break
-        else:
-            print("Invalid choice. Try again.")
+            print("Please enter valid numerical values.")
 
 
 if __name__ == "__main__":
-    main()
+    menu()
