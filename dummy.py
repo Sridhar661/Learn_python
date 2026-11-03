@@ -1,80 +1,39 @@
-balance = 10000
-pin = 1234
+def calculator():
+    print("=== Simple Python Calculator ===")
+    print("Select operation:")
+    print("1. Add (+)")
+    print("2. Subtract (-)")
+    print("3. Multiply (*)")
+    print("4. Divide (/)")
 
-entered_pin = int(input("Enter your PIN: "))
+    while True:
+        choice = input("\nEnter choice (1/2/3/4 or 'q' to quit): ")
 
-if entered_pin == pin:
-    print("\n1. Check Balance")
-    print("2. Deposit")
-    print("3. Withdraw")
-    print("4. Exit")
+        if choice.lower() == 'q':
+            print("Exiting calculator. Goodbye!")
+            break
 
-    choice = int(input("Enter your choice: "))
+        if choice in ('1', '2', '3', '4'):
+            try:
+                num1 = float(input("Enter first number: "))
+                num2 = float(input("Enter second number: "))
+            except ValueError:
+                print("Invalid input. Please enter valid numbers.")
+                continue
 
-    if choice == 1:
-        print("Your balance is ₹", balance)
-
-    elif choice == 2:
-        amount = float(input("Enter deposit amount: ₹"))
-        balance += amount
-        print("Deposited successfully!")
-        print("New balance: ₹", balance)
-
-    elif choice == 3:
-        amount = float(input("Enter withdrawal amount: ₹"))
-
-        if amount <= balance:
-            balance -= amount
-            print("Please collect your cash.")
-            print("Remaining balance: ₹", balance)
+            if choice == '1':
+                print(f"Result: {num1} + {num2} = {num1 + num2}")
+            elif choice == '2':
+                print(f"Result: {num1} - {num2} = {num1 - num2}")
+            elif choice == '3':
+                print(f"Result: {num1} * {num2} = {num1 * num2}")
+            elif choice == '4':
+                if num2 == 0:
+                    print("Error: Division by zero is not allowed.")
+                else:
+                    print(f"Result: {num1} / {num2} = {num1 / num2}")
         else:
-            print("Insufficient balance!")
+            print("Invalid choice. Please select 1, 2, 3, 4, or 'q'.")
 
-    elif choice == 4:
-        print("Thank you!")
-
-    else:
-        print("Invalid choice!")
-
-else:
-    print("Incorrect PIN!")
-
-
-
-
-
-
-
-
-
-
-
-
-num1 = float(input("Enter first number: "))
-num2 = float(input("Enter second number: "))
-
-print("1. Addition")
-print("2. Subtraction")
-print("3. Multiplication")
-print("4. Division")
-
-choice = input("Choose an operation (1-4): ")
-
-if choice == "1":
-    print("Result:", num1 + num2)
-
-elif choice == "2":
-    print("Result:", num1 - num2)
-
-elif choice == "3":
-    print("Result:", num1 * num2)
-
-elif choice == "4":
-    if num2 != 0:
-        print("Result:", num1 / num2)
-    else:
-        print("Error: Cannot divide by zero")
-
-else:
-    print("Invalid choice")
-
+if __name__ == "__main__":
+    calculator()
