@@ -1,27 +1,22 @@
-def calculator():
-    print("=== Python Calculator ===")
+import random
 
-    num1 = float(input("Enter first number: "))
-    operator = input("Enter operator (+, -, *, /): ")
-    num2 = float(input("Enter second number: "))
+options = ['rock' , 'paper' , 'scissor']
 
-    if operator == "+":
-        result = num1 + num2
-    elif operator == "-":
-        result = num1 - num2
-    elif operator == "*":
-        result = num1 * num2
-    elif operator == "/":
-        if num2 != 0:
-            result = num1 / num2
-        else:
-            print("Cannot divide by zero")
-            return
-    else:
-        print("Invalid operator")
-        return
+player = input("enter your choice (rock , paper , scissor):")
 
-    print("Result:", result)
+computer = random.choice(options)
+print(player)
 
+print(computer)
+if player == computer :
+    print("It's a tie" )
 
-calculator()
+elif player == 'rock' and computer == 'scissor':
+    print("you win!")
+elif player == 'scissor' and computer == 'paper':
+    print('you win!')
+
+elif player == 'paper' and computer == 'rock':
+    print('you win!')
+else:
+    print('you lose!')    
